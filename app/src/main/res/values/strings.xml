@@ -8,4 +8,9 @@
     <string name="sign_up">Регистрация</string>
     <string name="sign_in">Вход</string>
     <string name="sign_out">Выход</string>
+    <string name="account">Аккаунт</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="sign_up_button">Зарегистрироваться</string>
+    <string name="sign_in_button">Войти</string>
 </resources>
