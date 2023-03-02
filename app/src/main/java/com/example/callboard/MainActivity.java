@@ -3,8 +3,11 @@ package com.example.callboard;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,11 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private NavigationView nav_view;
+    private DrawerLayout drawerLayout;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +35,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void init()
     {
         nav_view = findViewById(R.id.nav_view);
-
+        drawerLayout = findViewById(R.id.DrawerLayout);
         nav_view.setNavigationItemSelectedListener(this);
+        drawerLayout.openDrawer(GravityCompat.START);
 
         // Test
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -38,6 +46,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myRef.setValue("Hello, World!");
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+    }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
