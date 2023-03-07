@@ -7,15 +7,20 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -41,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Test
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
+        mAuth = FirebaseAuth.getInstance();
+        DatabaseReference myRef = database.getReference("Message");
         myRef.setValue("Hello, World!");
     }
 
@@ -73,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Pressed id dm ads", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.id_sign_up:
-                signUpDialog(R.string.sign_up, R.string.sign_up_button);
+                signUpDialog(R.string.sign_up, R.string.sign_up_button, 0);
                 Toast.makeText(this, "Pressed id sign up", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.id_sign_in:
-                signUpDialog(R.string.sign_in, R.string.sign_in_button);
+                signUpDialog(R.string.sign_in, R.string.sign_in_button, 1);
                 Toast.makeText(this, "Pressed id sign in", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.id_sign_out:
@@ -86,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
-    private void signUpDialog(int title, int buttonTitle)
+    private void signUpDialog(int title, int buttonTitle, int index)
     {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -94,12 +99,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialogBuilder.setView(dialogView);
         TextView titleTextView = dialogView.findViewById(R.id.tvAlertTitle);
         titleTextView.setText(title);
+        EditText editEmail = dialogView.findViewById(R.id.editEmail);
+        EditText editPassword = dialogView.findViewById(R.id.editPassword);
         Button b = dialogView.findViewById(R.id.buttonSignUp);
         b.setText(buttonTitle);
         b.setOnClickListener(v -> {
-
+            if (index == 0)
+            {
+                signUp();
+            }
         });
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
+    }
+    private void signUp(String email, String password)
+    {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("MyLogMainActivity", "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            Log.w("MyLogMainActivity", "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(getApplicationContext(), "Authentication failed",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 }

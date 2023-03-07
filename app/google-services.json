@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "919802466817",
+    "firebase_url": "https://callboard123-default-rtdb.firebaseio.com",
+    "project_id": "callboard123",
+    "storage_bucket": "callboard123.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919802466817:android:1a123841790171d9792600",
+        "android_client_info": {
+          "package_name": "com.example.callboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "919802466817-2m8ukgr6efc8d5ea2ksivvii919o39dt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbRIRB-Kf04p-uWzNET1xxuXTwyScNxjs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "919802466817-2m8ukgr6efc8d5ea2ksivvii919o39dt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
