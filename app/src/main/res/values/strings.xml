@@ -13,4 +13,5 @@
     <string name="password">Пароль</string>
     <string name="sign_up_button">Зарегистрироваться</string>
     <string name="sign_in_button">Войти</string>
+    <string name="sign_in_or_sign_up">Войдите или зарегистрируйтесь</string>
 </resources>
