@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Callboard"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".EditActivity"
             android:exported="true"
             android:theme="@style/Theme.Callboard.NoToolBar">
             <intent-filter>
@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EditActivity">
+            android:name=".MainActivity">
         </activity>
     </application>
 

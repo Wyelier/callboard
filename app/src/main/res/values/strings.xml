@@ -14,4 +14,9 @@
     <string name="sign_up_button">Зарегистрироваться</string>
     <string name="sign_in_button">Войти</string>
     <string name="sign_in_or_sign_up">Войдите или зарегистрируйтесь</string>
+    <!--EditActivity-->
+    <string name="edit_ac_title">Название</string>
+    <string name="edit_ac_price">Цена</string>
+    <string name="edit_ac_description">Описание</string>
+    <string name="edit_ac_tel">Телефон</string>
 </resources>
