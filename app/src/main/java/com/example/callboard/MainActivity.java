@@ -1,14 +1,15 @@
 package com.example.callboard;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,14 +18,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private NavigationView nav_view;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth mAuth;
     private TextView userEmail;
     private AlertDialog dialog;
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +44,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         nav_view = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.DrawerLayout);
+        toolbar = findViewById(R.id.toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar, R.string.toggle_open, R.string.toggle_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
         nav_view.setNavigationItemSelectedListener(this);
         userEmail = nav_view.getHeaderView(0).findViewById(R.id.tvEmail);
-        drawerLayout.openDrawer(GravityCompat.START);
-
-        // Test
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        DatabaseReference myRef = database.getReference("Message");
 
 
 
@@ -60,6 +62,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onStart() {
         super.onStart();
 
+    }
+    public void onClicEdit(View view)
+    {
+        Intent i = new Intent(MainActivity.this, EditActivity.class);
+        startActivity(i);
     }
     private void getUserData()
     {

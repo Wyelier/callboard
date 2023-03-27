@@ -79,7 +79,7 @@ public class EditActivity extends AppCompatActivity {
         byte[] byteArray = out.toByteArray();
         final StorageReference mRef = mStorageRef.child(System.currentTimeMillis() + "_image");
         UploadTask up = mRef.putBytes(byteArray);
-        Task<Uri> task =  up.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+        Task<Uri> task = up.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 return mRef.getDownloadUrl();
@@ -97,10 +97,11 @@ public class EditActivity extends AppCompatActivity {
 
             }
         });
+
     }
     public void onClickSavePost(View view)
     {
-
+        savePost();
     }
     public void onClickImage(View view)
     {
@@ -119,6 +120,7 @@ public class EditActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         if(mAuth.getUid() != null)
         {
+            String key = dRef.push().getKey();
             NewPost post = new NewPost();
 
             post.setImageId(uploadUri.toString());
@@ -126,7 +128,9 @@ public class EditActivity extends AppCompatActivity {
             post.setPrice(editPrice.getText().toString());
             post.setPhone(editPhone.getText().toString());
             post.setDesc(editDesc.getText().toString());
+            post.setKey(key);
 
+            if(key != null)dRef.child(mAuth.getUid()).child(key).setValue(post);
         }
     }
 }
