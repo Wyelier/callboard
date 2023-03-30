@@ -28,7 +28,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.net.URI;
 
 public class EditActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
@@ -129,8 +128,10 @@ public class EditActivity extends AppCompatActivity {
             post.setPhone(editPhone.getText().toString());
             post.setDesc(editDesc.getText().toString());
             post.setKey(key);
+            post.setTime(String.valueOf(System.nanoTime()));
+            post.setUid(mAuth.getUid());
 
-            if(key != null)dRef.child(mAuth.getUid()).child(key).setValue(post);
+            if(key != null)dRef.child(key).child("ad").setValue(post);
         }
     }
 }

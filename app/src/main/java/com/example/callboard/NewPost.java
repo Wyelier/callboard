@@ -7,6 +7,24 @@ public class NewPost {
     private String phone;
     private String desc;
     private String key;
+    private String uid;
+    private String time;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getImageId() {
         return imageId;

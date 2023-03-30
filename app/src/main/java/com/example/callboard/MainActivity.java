@@ -6,6 +6,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.callboard.adapter.DataSender;
+import com.example.callboard.adapter.PostAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,6 +31,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private NavigationView nav_view;
     private DrawerLayout drawerLayout;
@@ -34,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView userEmail;
     private AlertDialog dialog;
     private Toolbar toolbar;
+    private PostAdapter.OnItemClickCustom onItemClickCustom;
+    private RecyclerView rcView;
+    private PostAdapter postAdapter;
+    private DataSender dataSender;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,20 +54,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     private void init()
     {
+        setOnItemClickCustom();
+        rcView = findViewById(R.id.rcView);
+        rcView.setLayoutManager(new LinearLayoutManager(this));
+        List<NewPost> arrayPost = new ArrayList<>();
+        postAdapter = new PostAdapter(arrayPost, this,onItemClickCustom);
+        rcView.setAdapter(postAdapter);
+
         nav_view = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.DrawerLayout);
         toolbar = findViewById(R.id.toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar, R.string.toggle_open, R.string.toggle_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-
         nav_view.setNavigationItemSelectedListener(this);
         userEmail = nav_view.getHeaderView(0).findViewById(R.id.tvEmail);
         mAuth = FirebaseAuth.getInstance();
 
-
-
+        getDataDb();
+        DbManager dbManager = new DbManager(dataSender);
+        dbManager.getDataFromDb("Машины");
+    }
+    private void getDataDb()
+    {
+        dataSender = new DataSender() {
+            @Override
+            public void OnDataReceived(List<NewPost> listData)
+            {
+                Collections.reverse(listData);
+                postAdapter.updateAdapter(listData);
+            }
+        };
+    }
+    private void setOnItemClickCustom()
+    {
+        onItemClickCustom = new PostAdapter.OnItemClickCustom() {
+            @Override
+            public void onItemSelected(int position) {
+                Log.d("MyLogMainActivity","Position " + position);
+            }
+        };
     }
 
     @Override
@@ -63,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onStart();
 
     }
-    public void onClicEdit(View view)
+    public void onClickEdit(View view)
     {
         Intent i = new Intent(MainActivity.this, EditActivity.class);
         startActivity(i);
