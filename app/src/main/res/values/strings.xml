@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">callboard</string>
     <string name="my_ads">Мои объявления</string>
+
     <string name="cars_ads">Машины</string>
     <string name="pc_ads">Компьютеры</string>
     <string name="smartphone_ads">Смартфоны</string>
     <string name="dm_ads">Бытовая техника</string>
     <string name="sign_up">Регистрация</string>
+
     <string name="sign_in">Вход</string>
     <string name="sign_out">Выход</string>
     <string name="account">Аккаунт</string>

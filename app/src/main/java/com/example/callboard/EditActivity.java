@@ -128,6 +128,7 @@ public class EditActivity extends AppCompatActivity {
             post.setPhone(editPhone.getText().toString());
             post.setDesc(editDesc.getText().toString());
             post.setKey(key);
+            post.setCat(spinner.getSelectedItem().toString());
             post.setTime(String.valueOf(System.nanoTime()));
             post.setUid(mAuth.getUid());
 
