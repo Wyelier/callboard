@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DataSender dataSender;
     private DbManager dbManager;
     public static String MAUTH = "";
+    private String current_cat = "Машины";
 
 
 
@@ -57,6 +58,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         init();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (current_cat.equals("my_ads"))
+        {
+            dbManager.getMyAdsFromDb(mAuth.getUid());
+        }
+        else
+        {
+            dbManager.getDataFromDb(current_cat);
+        }
+
+    }
+
     private void init()
     {
         setOnItemClickCustom();
@@ -78,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         getDataDb();
         dbManager = new DbManager(dataSender, this);
-        dbManager.getDataFromDb("Машины");
         postAdapter.setDbManager(dbManager);
     }
     private void getDataDb()
@@ -133,18 +148,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id)
         {
             case R.id.id_my_ads:
+                current_cat = "my_ads";
                 dbManager.getMyAdsFromDb(mAuth.getUid());
                 break;
             case R.id.id_cars_ads:
+                current_cat = "Машины";
                 dbManager.getDataFromDb("Машины");
                 break;
             case R.id.id_pc_ads:
+                current_cat = "Компьютеры";
                 dbManager.getDataFromDb("Компьютеры");
                 break;
             case R.id.id_smartphone_ads:
+                current_cat = "Смартфоны";
                 dbManager.getDataFromDb("Смартфоны");
                 break;
             case R.id.id_dm_ads:
+                current_cat = "Бытовая техника";
                 dbManager.getDataFromDb("Бытовая техника");
                 break;
             case R.id.id_sign_up:

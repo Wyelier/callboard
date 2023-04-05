@@ -180,6 +180,7 @@ public class EditActivity extends AppCompatActivity {
                 updatePost();
             }
         }
+        finish();
     }
     public void onClickImage(View view)
     {
